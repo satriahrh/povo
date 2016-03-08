@@ -10,6 +10,7 @@ package povo;
  */
 public abstract class Media {
 private Account[] tagged;
+int a;
 
 public tagPerson(Account p){
     

@@ -6,16 +6,17 @@ package povo;
 
 /**
  *
+ * 
  * @author Cha Aska
  */
 public abstract class Media {
 private Account[] tagged;
-int a;
 
 public tagPerson(Account p){
-    
+p.followFriend();
+this.tagPerson();
 }
 public Account getTagged(int id){
-    
+    return p[id];
 }
 }

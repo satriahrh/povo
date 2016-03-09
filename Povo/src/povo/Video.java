@@ -12,9 +12,10 @@ public class Video {
    private Vid content;
    
    public Video(Vid content){
+       this.Video=Video;
        
    }
    public Vid getContent(){
-       
+       return content;
    }
 }

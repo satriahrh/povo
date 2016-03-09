@@ -12,9 +12,12 @@ public class Photo {
     private Picture content;
     
     public Photo(photo content){
+        this.Photo=Photo;
         
+        
+      
     }
     public Picture getContent(){
-        
+        return content;
     }
 }

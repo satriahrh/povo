@@ -11,6 +11,7 @@ import java.util.Scanner;
  *
  * @author hafizhme
  */
+
 public class Povo {
     
     static Scanner sc = new Scanner(System.in);

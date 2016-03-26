@@ -15,10 +15,8 @@ import java.util.Scanner;
 public class Povo {
     
     static Scanner sc = new Scanner(System.in);
-
-    /**
-     * @param args the command line arguments
-     */
+    
+    
     public static void main(String[] args) {
         System.out.println("------------POVO-----------");
         System.out.println("--Photo and Video Sharing--");

@@ -8,14 +8,18 @@ package povo;
  *
  * @author Cha Aska
  */
-public class Video {
-   private Vid content;
+public class Video extends Media{
+   private String content;
    
-   public Video(Vid content){
-       this.Video=Video;
-       
+    public Video(String content){
+       this.content = content;
    }
-   public Vid getContent(){
+
+   public String getContent(){
        return content;
    }
+   public String toString(){
+        return  "photo : " +
+                this.getContent() + "\t| ";
+    }
 }

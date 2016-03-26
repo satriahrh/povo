@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package povo;
-
+        
 /**
  *
  * @author ThareeqAD
@@ -14,8 +14,8 @@ public class Account {
     private String password;
     private String displayname;
     private String email;
-    private int jumlahmedia = 0;
-    private int jumlahfollower = 0;
+    private int jumlahMedia = 0;
+    private int jumlahFollower = 0;
     private Media[] media = new Media[10];
     private Account[] friend = new Account[100];
 
@@ -36,7 +36,7 @@ public class Account {
     }
 
     public String getDisplayname() {
-        return displayname;
+        return this.displayname;
     }
 
     public void setDisplayname(String displayname) {
@@ -44,7 +44,7 @@ public class Account {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -52,24 +52,34 @@ public class Account {
     }
     
     public void createMedia(String path){
-        if (media.length < 10){
-            media[jumlah] = path;
-            jumlah ++;
+        if (this.media.length < 10){
+            if ("gambar".equals(path)) {
+                this.media[jumlahMedia] = new Photo(path);
+            } else {
+                this.media[jumlahMedia] = new Video(path);
+            }
         } 
         else
             System.out.println("Tidak Punya Media");
         
     }
     
-    public void followfriend((Account p) {
-        if (friend.length < 100){
-            friend[jumlahfollower] = p;
-            jumlahfollower++;
+    public void followFriend(Account p) {
+        if (this.friend.length < 100){
+            this.friend[this.jumlahFollower] = p;
+            this.jumlahFollower++;
             
         }
         else 
             System.out.println("Tidak Bisa Menambahkan");
         
         
+    }
+    
+    public String toString(){
+        return  "account : " +
+                this.username + "\t| " +
+                this.displayname + "\t| " +
+                this.email + "\t| ";
     }
 }

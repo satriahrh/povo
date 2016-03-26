@@ -1,16 +1,26 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package povo;
 
 /**
  *
- * @author ThareeqAD
+ * 
+ * @author Cha Aska
  */
-public class Media extends Account{
-    private Account [] tagged = 
+
+public abstract class Media {
+    private Account[] tagged;
+    private int jumlahTagged = 0;
+    private Comment[] comments;
     
     
+
+    public void tagPerson(Account account){
+        this.tagged[this.jumlahTagged++] = new Account();
+    }
+    public Account getTagged(int id){
+        return this.tagged[id];
+    } 
 }

@@ -5,17 +5,34 @@
  */
 package povo;
 
+import java.util.Scanner;
+
 /**
  *
  * @author hafizhme
  */
-public class Povo {
 
-    /**
-     * @param args the command line arguments
-     */
+public class Povo {
+    
+    static Scanner sc = new Scanner(System.in);
+    
+    
     public static void main(String[] args) {
-        // TODO code application logic here
+        System.out.println("------------POVO-----------");
+        System.out.println("--Photo and Video Sharing--");
+        System.out.println();
+        System.out.println("1. Sign In");
+        System.out.println("2. Sign Up");
+        
+        byte choice = (byte) sc.nextInt();
+        
+        if (choice == 1) {
+            // go to sign in
+        } else if (choice ==2 ) {
+            // go to sign up
+        }
+        
+        
     }
     
 }

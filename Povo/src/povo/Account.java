@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package povo;
-
+        
 /**
  *
  * @author ThareeqAD
@@ -53,8 +53,11 @@ public class Account {
     
     public void createMedia(String path){
         if (this.media.length < 10){
-            this.media[this.jumlahMedia] = path;
-            this.jumlahMedia ++;
+            if ("gambar".equals(path)) {
+                this.media[jumlahMedia] = new Photo(path);
+            } else {
+                this.media[jumlahMedia] = new Video(path);
+            }
         } 
         else
             System.out.println("Tidak Punya Media");
@@ -71,5 +74,12 @@ public class Account {
             System.out.println("Tidak Bisa Menambahkan");
         
         
+    }
+    
+    public String toString(){
+        return  "account : " +
+                this.username + "\t| " +
+                this.displayname + "\t| " +
+                this.email + "\t| ";
     }
 }

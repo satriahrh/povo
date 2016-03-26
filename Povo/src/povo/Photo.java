@@ -4,20 +4,24 @@
  */
 package povo;
 
+
 /**
  *
  * @author Cha Aska
  */
-public class Photo {
-    private Picture content;
+public class Photo extends Media{
+    private String content;
     
-    public Photo(photo content){
-        this.Photo=Photo;
-        
-        
-      
+    public Photo(String content){
+        this.content = content;
     }
-    public Picture getContent(){
-        return content;
+    
+    public String getContent(){
+        return this.content;
+    }
+    
+    public String toString(){
+        return  "photo : " +
+                this.getContent() + "\t| ";
     }
 }

@@ -15,18 +15,26 @@ public class Console {
     
     static Scanner sc = new Scanner(System.in);
     
-    public static void signUp() {
+    public static Account signUp() {
         System.out.print("\tusername\t: ");
         String username = sc.next();
-            System.out.print("\tdisplayname\t: ");
-            String displayname = sc.nextLine();
-            System.out.print("\temail\t\t: ");
-            String email = sc.next();
-            System.out.print("\tpassword\t: ");
-            String password = sc.next();
+        System.out.print("\tdisplayname\t: ");
+        String displayname = sc.nextLine();
+        System.out.print("\temail\t\t: ");
+        String email = sc.next();
+        System.out.print("\tpassword\t: ");
+        String password = sc.next();
+            
+        Account account = new Account();
+        account.setUsername(username);
+        account.setDisplayname(displayname);
+        account.setEmail(email);
+        account.setPassword(password);
+        
+        return account;
     }
     
-    public static void signIn() {
+    public static Account signIn() {
         
     }
     

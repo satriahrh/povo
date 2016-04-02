@@ -13,9 +13,16 @@ import java.util.Scanner;
  */
 public class Console {
     
+    Admin admin;
     static Scanner sc = new Scanner(System.in);
     
+    public Console() {
+        admin = new Admin();
+    }
+    
     public static Account signUp() {
+        Account account = null;
+        
         System.out.print("\tusername\t: ");
         String username = sc.next();
         System.out.print("\tdisplayname\t: ");
@@ -25,7 +32,7 @@ public class Console {
         System.out.print("\tpassword\t: ");
         String password = sc.next();
             
-        Account account = new Account();
+        account = new Account();
         account.setUsername(username);
         account.setDisplayname(displayname);
         account.setEmail(email);
@@ -34,8 +41,26 @@ public class Console {
         return account;
     }
     
-    public static Account signIn() {
+    public Account signIn() {
+        Account account = null;
         
+        System.out.println("Username : ");
+        String username = sc.next();
+        System.out.println("Password : ");
+        String password = sc.next();
+        
+        int i = 0;
+        for (i = 0; i < admin.accounts.size(); i++)
+            if (admin.accounts.get(i).getUsername().equals(username))
+                if (admin.accounts.get(i).getPassword().equals(password))
+                    account = admin.accounts.get(i);
+                else 
+                    System.out.println("Password salah");
+        
+        if (i == admin.accounts.size())
+            System.out.println("Username salah");
+        
+        return account;
     }
     
 }

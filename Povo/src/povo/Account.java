@@ -5,6 +5,8 @@
  */
 package povo;
         
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author ThareeqAD
@@ -16,8 +18,8 @@ public class Account {
     private String email;
     private int jumlahMedia = 0;
     private int jumlahFollower = 0;
-    private Media[] media = new Media[10];
-    private Account[] friend = new Account[100];
+    private List<Media> media = new ArrayList();
+    private List<Account> friend = new ArrayList();
 
     public String getUsername() {
         return username;
@@ -52,28 +54,17 @@ public class Account {
     }
     
     public void createMedia(String path){
-        if (this.media.length < 10){
-            if ("gambar".equals(path)) {
-                this.media[jumlahMedia] = new Photo(path);
-            } else {
-                this.media[jumlahMedia] = new Video(path);
-            }
-        } 
-        else
-            System.out.println("Tidak Punya Media");
-        
+        if ("gambar".equals(path)) {
+            Photo photo = new Photo(path);
+            this.media.add(photo);
+        } else {
+            Video video = new Video(path);
+            this.media.add(video);
+        }
     }
     
     public void followFriend(Account p) {
-        if (this.friend.length < 100){
-            this.friend[this.jumlahFollower] = p;
-            this.jumlahFollower++;
-            
-        }
-        else 
-            System.out.println("Tidak Bisa Menambahkan");
-        
-        
+        this.friend.add(p);
     }
     
     public String toString(){

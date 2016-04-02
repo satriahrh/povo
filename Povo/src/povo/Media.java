@@ -4,19 +4,24 @@
  */
 package povo;
 
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * 
  * @author Cha Aska
  */
-public abstract class Media {
-private Account[] tagged;
 
-public tagPerson(Account p){
-p.followFriend();
-this.tagPerson();
-}
-public Account getTagged(int id){
-    return p[id];
-}
+public abstract class Media {
+    private List<Account> tagged = new ArrayList();
+    private List<Comment> comments = new ArrayList();
+    
+    
+
+    public void tagPerson(Account account){
+        this.tagged.add(account);
+    }
+    public Account getTagged(int id){
+        return this.tagged.get(id);
+    } 
 }

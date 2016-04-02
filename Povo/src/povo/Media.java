@@ -4,6 +4,8 @@
  */
 package povo;
 
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * 
@@ -11,16 +13,15 @@ package povo;
  */
 
 public abstract class Media {
-    private Account[] tagged;
-    private int jumlahTagged = 0;
-    private Comment[] comments;
+    private List<Account> tagged = new ArrayList();
+    private List<Comment> comments = new ArrayList();
     
     
 
     public void tagPerson(Account account){
-        this.tagged[this.jumlahTagged++] = new Account();
+        this.tagged.add(account);
     }
     public Account getTagged(int id){
-        return this.tagged[id];
+        return this.tagged.get(id);
     } 
 }

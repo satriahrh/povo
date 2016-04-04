@@ -19,8 +19,10 @@ public class Account {
     private int jumlahMedia = 0;
     private int jumlahFollower = 0;
     private List<Media> media = new ArrayList();
-    private List<Account> friend = new ArrayList();
-
+    private List<Account> following = new ArrayList();
+    private List<Account> follower = new ArrayList();
+    private List<Card> timeLine = new ArrayList();
+    
     public String getUsername() {
         return username;
     }
@@ -53,18 +55,50 @@ public class Account {
         this.email = email;
     }
     
-    public void createMedia(String path){
-        if ("gambar".equals(path)) {
+    public boolean createMedia(String path){
+        Media media = null;
+        
+        int leng = path.length();
+        String format = path.substring(leng-4);
+        if (".jpg".equals(format) || ".png".equals(format)) {
             Photo photo = new Photo(path);
+            media = photo;
             this.media.add(photo);
-        } else {
+        } else if(".mp4".equals(format) || ".avi".equals(format)){
             Video video = new Video(path);
+            media = video;
             this.media.add(video);
+        } else {
+            return false;
         }
+        
+        for (Account follower : this.follower) {
+            follower.addTimeLine(this, media);
+        }
+        
+        return true;
     }
     
-    public void followFriend(Account p) {
-        this.friend.add(p);
+    public Media getMedia(int id) {
+        return this.media.get(id);
+    }
+    
+    public void followFriend(Account account) {
+        this.following.add(account);
+        account.followedByFriend(this);
+    }
+    
+    public void followedByFriend(Account account) {
+        this.follower.add(account);
+    }
+    
+    public void addTimeLine(Account account, Media media) {
+        Card card = new Card(account,media);
+        this.timeLine.add(card);
+    }    
+    
+    public Card getTimeLine(int id) {
+        return this.timeLine.get(id);
     }
     
     public String toString(){

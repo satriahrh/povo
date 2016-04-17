@@ -19,6 +19,10 @@ public class Admin implements Serializable {
     private String password = "passwordadmin";
     public List<Account> accounts = new ArrayList();
     private int jumlahAccount = 0;
+
+    public int getJumlahAccount() {
+        return jumlahAccount;
+    }
     
     public void createAccount(Account account) {
         this.accounts.add(account);

@@ -19,6 +19,8 @@ public class Account implements Serializable{
     private String email;
     private int jumlahMedia = 0;
     private int jumlahFollower = 0;
+    private int jumlahFollowing = 0;
+    private int jumlahCard = 0;
     List<Media> media = new ArrayList();
     private List<Account> following = new ArrayList();
     private List<Account> follower = new ArrayList();
@@ -77,6 +79,7 @@ public class Account implements Serializable{
             follower.addTimeLine(this, media);
         }
         
+        jumlahMedia++;
         return true;
     }
     
@@ -87,15 +90,18 @@ public class Account implements Serializable{
     public void followFriend(Account account) {
         this.following.add(account);
         account.followedByFriend(this);
+        jumlahFollowing++;
     }
     
     public void followedByFriend(Account account) {
         this.follower.add(account);
+        jumlahFollower++;
     }
     
     public void addTimeLine(Account account, Media media) {
         Card card = new Card(account,media);
-        this.timeLine.add(card);
+        account.timeLine.add(card);
+        account.jumlahCard++;
     }    
     
     public Card getTimeLine(int id) {
@@ -107,5 +113,33 @@ public class Account implements Serializable{
                 this.username + "\t| " +
                 this.displayname + "\t| " +
                 this.email + "\t| ";
+    }
+
+    /**
+     * @return the jumlahMedia
+     */
+    public int getJumlahMedia() {
+        return jumlahMedia;
+    }
+
+    /**
+     * @return the jumlahFollower
+     */
+    public int getJumlahFollower() {
+        return jumlahFollower;
+    }
+
+    /**
+     * @return the jumlahFollowing
+     */
+    public int getJumlahFollowing() {
+        return jumlahFollowing;
+    }
+
+    /**
+     * @return the jumlahCard
+     */
+    public int getJumlahCard() {
+        return jumlahCard;
     }
 }

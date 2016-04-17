@@ -3,22 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package povo;
+package Model;
         
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 /**
  *
  * @author ThareeqAD
  */
-public class Account {
+public class Account implements Serializable{
     private String username;
     private String password;
     private String displayname;
     private String email;
     private int jumlahMedia = 0;
     private int jumlahFollower = 0;
-    private List<Media> media = new ArrayList();
+    List<Media> media = new ArrayList();
     private List<Account> following = new ArrayList();
     private List<Account> follower = new ArrayList();
     private List<Card> timeLine = new ArrayList();

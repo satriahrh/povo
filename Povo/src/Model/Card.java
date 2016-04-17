@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package povo;
+package Model;
+
+import java.io.Serializable;
 
 /**
  *
  * @author hafizhme
  */
-public class Card {
+public class Card implements Serializable {
     private Account account;
     private Media media;
     

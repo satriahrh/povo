@@ -35,6 +35,8 @@ public class Aplikasi {
         }
     }
     public void mainMenu() throws IOException, ClassNotFoundException {
+        System.out.println("1. Account");
+        System.out.println("2. Admin");
         for (;;){
             if (account != null) {
                 System.out.println("Main Menu");
@@ -54,7 +56,7 @@ public class Aplikasi {
                         addMedia();
                         break;
                     case "4" :
-                        showMyMedia();
+                        showMedia(account);
                         break;
                     case "5" :
                         signOut();
@@ -130,13 +132,27 @@ public class Aplikasi {
     }
     
     public void showTimeLine() {
+        showTimeLine(0);
+    }
+    public void showTimeLine(int idx) {
         Card card = null;
-        for (int i = 0; i < 10; i++) {
+        int i = idx;
+        for (; i < 10; i++) {
+            if (i == account.getJumlahCard()){
+                if (i==0)
+                    System.out.println("Anda belum mempunyai timeline,\n"
+                            + "coba follow beberapa teman untuk\n"
+                            + "mendapatkan timeline");
+                else
+                    System.out.println("-------sudah semua-------");
+                return;
+            }
             card = account.getTimeLine(i);
-            if (!(card == null))
-                card.toString();
-            System.out.println("----------------------");                 
+            System.out.println((i+1)+". "+card.toString());
         }
+        System.out.println("Lagi ? (ya/tidak)");
+        if (sc.nextLine().toLowerCase().equals("ya"))
+            showTimeLine(i);
     }
     
     public void findFriend() {
@@ -147,27 +163,32 @@ public class Aplikasi {
         
         int count = 0;
         int i = 0;
-        boolean sudahSemua = admin.accounts.get(i) == null;
+        boolean sudahSemua = admin.getJumlahAccount() == i;
         while ((count < 10) && (!sudahSemua)) {
             Account foundedAccount = admin.accounts.get(i);
             String displayname = foundedAccount.getDisplayname();
             if (displayname.contains(key)) {
                 System.out.println(++count + ". " + displayname);
-                foundedAccounts.add(count, foundedAccount);
+                foundedAccounts.add(foundedAccount);
             }
             
-            sudahSemua = admin.accounts.get(++i) == null;
+            sudahSemua = admin.getJumlahAccount() == ++i;
         }
-        
-        System.out.println("\nDo you wish to follow your friend? (Ya/No)\n");
-        if (sc.nextLine().toLowerCase().equals("ya")) {
-            System.out.println("Masukkan nomornya : ");
-            int idx = sc.nextInt();
-            if (idx < foundedAccounts.size()) {
-                account.followFriend((foundedAccounts.get(idx)));
-                System.out.println(foundedAccounts.get(idx).getDisplayname() + "has been followed");
-            }
-        }     
+        if (count==0)
+            System.out.println("Tidak ada akun ditemukan");
+        else {
+            System.out.println("\nDo you wish to follow your friend? (Ya/No)\n");
+            if (sc.nextLine().toLowerCase().equals("ya")) {
+                System.out.println("Masukkan nomornya : ");
+                int idx = Integer.parseInt(sc.nextLine())-1;
+                if (idx < foundedAccounts.size()) {
+                    this.account.followFriend((foundedAccounts.get(idx)));
+                    System.out.println(foundedAccounts.get(idx).getDisplayname() + " has been followed");
+                } else {
+                    System.out.println("Input Salah");
+                }
+            }   
+        }
     }
     
     public void addMedia() {
@@ -177,32 +198,31 @@ public class Aplikasi {
             System.out.println("Media berhasil ditambahkan");
         }
     }
-    public boolean showMedia(int idx, Account account) {
+    public void showMedia(Account account) {
+        showMedia(account, 0);
+    }
+    public void showMedia(Account account, int idx) {
         Media media = null;
-        for (int i = idx; i < idx+10; i++) {
-            media = account.getMedia(i);
-            if (media!=null) {
-                System.out.println((i+1)+". "+media.toString());
-            } else {
-                System.out.println("-------sudah semua-------");
-                return false;
+        int i = idx;
+        for (; i < 10; i++) {
+            if (i == account.getJumlahMedia()){
+                if (i==0)
+                    System.out.println("Anda belum mempunyai timeline,\n"
+                            + "coba follow beberapa teman untuk\n"
+                            + "mendapatkan timeline");
+                else
+                    System.out.println("-------sudah semua-------");
+                return;
             }
+            media = account.getMedia(i);
+            System.out.println((i+1)+". "+media.toString());
         }
-        return true;
+        System.out.println("Lagi ? (ya/tidak)");
+        if (sc.nextLine().toLowerCase().equals("ya"))
+            showMedia(account, i);
     }
     
-    public void showMyMedia() {
-        if (account.getMedia(0) != null) {
-            int i = 0;
-            boolean lanjut = true;
-            while (showMedia(i,account) && lanjut) {
-                System.out.println("Tampilkan lagi? (Ya/Tidak)");
-                lanjut = sc.nextLine().toLowerCase().equals("ya");
-            }
-        } else {
-            System.out.println("Tidak ada media");
-        }
-    }
+    
     
     public void lookMedia(Media media) {
         System.out.println("----------------");

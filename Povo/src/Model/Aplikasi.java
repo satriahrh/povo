@@ -37,54 +37,57 @@ public class Aplikasi {
     public void mainMenu() throws IOException, ClassNotFoundException {
         System.out.println("1. Account");
         System.out.println("2. Admin");
-        for (;;){
-            if (account != null) {
-                System.out.println("Main Menu");
-                System.out.println("1. Timeline");
-                System.out.println("2. Find Friend");
-                System.out.println("3. Add Media");
-                System.out.println("4. My Media");
-                System.out.println("5. Sign Out");             
-                switch (sc.nextLine()) {
-                    case "1" :
-                        showTimeLine();
-                        break;
-                    case "2" :
-                        findFriend();
-                        break;
-                    case "3" :
-                        addMedia();
-                        break;
-                    case "4" :
-                        showMedia(account);
-                        break;
-                    case "5" :
-                        signOut();
-                        break;
-                    default :
-                        System.out.println("Input salah");
-                        break;
-                }
-            } else {
-                System.out.println("Main Menu");
-                System.out.println("1. Sign In");
-                System.out.println("2. Sign Up");
-                System.out.println("3. Exit");
-                switch (sc.nextLine()) {
-                    case "1" :
-                        signIn();
-                        break;
-                    case "2" :
-                        signUp();
-                        break;
-                    case "3" :
-                        return;
-                    default :
-                        System.out.println("Input salah");
-                        break;
+        if (sc.nextLine().equals("1"))
+            for (;;){
+                if (account != null) {
+                    System.out.println("Main Menu");
+                    System.out.println("1. Timeline");
+                    System.out.println("2. Find Friend");
+                    System.out.println("3. Add Media");
+                    System.out.println("4. My Media");
+                    System.out.println("5. Sign Out");             
+                    switch (sc.nextLine()) {
+                        case "1" :
+                            showTimeLine();
+                            break;
+                        case "2" :
+                            findFriend();
+                            break;
+                        case "3" :
+                            addMedia();
+                            break;
+                        case "4" :
+                            showMedia(account);
+                            break;
+                        case "5" :
+                            signOut();
+                            break;
+                        default :
+                            System.out.println("Input salah");
+                            break;
+                    }
+                } else {
+                    System.out.println("Main Menu");
+                    System.out.println("1. Sign In");
+                    System.out.println("2. Sign Up");
+                    System.out.println("3. Exit");
+                    switch (sc.nextLine()) {
+                        case "1" :
+                            signIn();
+                            break;
+                        case "2" :
+                            signUp();
+                            break;
+                        case "3" :
+                            return;
+                        default :
+                            System.out.println("Input salah");
+                            break;
+                    }
                 }
             }
-        }
+        else
+            System.out.println("Belum tersedia saat ini");
     }        
     public void signUp() throws IOException, ClassNotFoundException {
         Account account = null;
@@ -105,9 +108,12 @@ public class Aplikasi {
         account.setEmail(email);
         account.setPassword(password);
      
-        admin.createAccount(account);
-        fio.saveFile(admin);
-        System.out.println("Akun telah dibuat, silakan log in");
+        if (admin.createAccount(account)) {
+            fio.saveFile(admin);
+            System.out.println("Akun telah dibuat, silakan log in");
+        } else {
+            System.out.println("Terdapat akun dengan username sama");
+        }
     }
     
     public void signIn() throws IOException, ClassNotFoundException {        

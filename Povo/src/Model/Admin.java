@@ -24,9 +24,14 @@ public class Admin implements Serializable {
         return jumlahAccount;
     }
     
-    public void createAccount(Account account) {
+    public boolean createAccount(Account account) {
+        for (Account acc : this.accounts) {
+            if (acc.getUsername()==account.getUsername())
+                return false;
+        }
         this.accounts.add(account);
         this.jumlahAccount++;
+        return true;
     }
     
     public void deleteAccount(Account account) {

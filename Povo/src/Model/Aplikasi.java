@@ -5,7 +5,7 @@
  */
 package Model;
 
-import FileIO.FileIO;
+import FileIO.database;
 import Model.Account;
 import Model.Admin;
 import Model.Card;
@@ -23,11 +23,11 @@ public class Aplikasi {
     
     Admin admin;
     Account account = null;
-    FileIO fio = null;
+    database fio = null;
     static Scanner sc = new Scanner(System.in);
     
     public Aplikasi () throws ClassNotFoundException, IOException {
-        fio = new FileIO();
+        fio = new database();
         admin = fio.loadFile();
         if (admin==null){
             admin = new Admin();

@@ -5,13 +5,12 @@
  */
 package Model;
 
-import java.io.Serializable;
-
 /**
  *
  * @author hafizhme
  */
-public class Card implements Serializable {
+public class Card {
+    private int id;
     private Account account;
     private Media media;
     
@@ -19,9 +18,32 @@ public class Card implements Serializable {
         this.account = account;
         this.media = media;
     }
+
+    public Card(int id, Account account, Media media) {
+        this.account = account;
+        this.media = media;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public int getId() {
+        return this.id;
+    }
+    
     
     public String toString() {
-        return this.account.getDisplayname() + "\n" + 
-               this.media.toString() + "\n";
+        return this.getAccount().getDisplayname() + " | " +
+                this.getMedia().toString() + " | ";
     }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public Media getMedia() {
+        return media;
+    }
+    
 }

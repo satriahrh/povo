@@ -5,248 +5,123 @@
  */
 package Model;
 
-import FileIO.database;
-import Model.Account;
-import Model.Admin;
-import Model.Card;
-import Model.Media;
+import Database.Database;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author hafizhme
  */
 public class Aplikasi {
+    Account account;
+    Database connection;
     
-    Admin admin;
-    Account account = null;
-    database fio = null;
-    static Scanner sc = new Scanner(System.in);
-    
-    public Aplikasi () throws ClassNotFoundException, IOException {
-        fio = new database();
-        admin = fio.loadFile();
-        if (admin==null){
-            admin = new Admin();
-            fio.saveFile(admin);
-        }
-    }
-    public void mainMenu() throws IOException, ClassNotFoundException {
-        System.out.println("1. Account");
-        System.out.println("2. Admin");
-        if (sc.nextLine().equals("1"))
-            for (;;){
-                if (account != null) {
-                    System.out.println("Main Menu");
-                    System.out.println("1. Timeline");
-                    System.out.println("2. Find Friend");
-                    System.out.println("3. Add Media");
-                    System.out.println("4. My Media");
-                    System.out.println("5. Sign Out");             
-                    switch (sc.nextLine()) {
-                        case "1" :
-                            showTimeLine();
-                            break;
-                        case "2" :
-                            findFriend();
-                            break;
-                        case "3" :
-                            addMedia();
-                            break;
-                        case "4" :
-                            showMedia(account);
-                            break;
-                        case "5" :
-                            signOut();
-                            break;
-                        default :
-                            System.out.println("Input salah");
-                            break;
-                    }
-                } else {
-                    System.out.println("Main Menu");
-                    System.out.println("1. Sign In");
-                    System.out.println("2. Sign Up");
-                    System.out.println("3. Exit");
-                    switch (sc.nextLine()) {
-                        case "1" :
-                            signIn();
-                            break;
-                        case "2" :
-                            signUp();
-                            break;
-                        case "3" :
-                            return;
-                        default :
-                            System.out.println("Input salah");
-                            break;
-                    }
-                }
+    public boolean signIn(String username, String password) {
+        List<Account> list;
+        list = connection.loadAccount();
+        for (Account e : list) {
+            if (e.getUsername().equals(username)
+                    &&
+                e.getPassword().equals(password)) {
+                this.account = e;
+                return true;
             }
-        else
-            System.out.println("Belum tersedia saat ini");
-    }        
-    public void signUp() throws IOException, ClassNotFoundException {
-        Account account = null;
-        admin = fio.loadFile();
-        
-        System.out.println("username\t: ");
-        String username = sc.nextLine();
-        System.out.println("displayname\t: ");
-        String displayname = sc.nextLine();
-        System.out.println("email\t\t: ");
-        String email = sc.nextLine();
-        System.out.println("password\t: ");
-        String password = sc.nextLine();
-            
-        account = new Account();
-        account.setUsername(username);
-        account.setDisplayname(displayname);
-        account.setEmail(email);
-        account.setPassword(password);
-     
-        if (admin.createAccount(account)) {
-            fio.saveFile(admin);
-            System.out.println("Akun telah dibuat, silakan log in");
-        } else {
-            System.out.println("Terdapat akun dengan username sama");
         }
+        return false;
     }
     
-    public void signIn() throws IOException, ClassNotFoundException {        
-        System.out.println("Username : ");
-        String username = sc.nextLine();
-        System.out.println("Password : ");
-        String password = sc.nextLine();
-        
-        admin = fio.loadFile();
-        for (int i = 0; i < admin.accounts.size(); i++)
-            if (admin.accounts.get(i).getUsername().equals(username))
-                if (admin.accounts.get(i).getPassword().equals(password)) {
-                    account = admin.accounts.get(i);
-                    break;
-                } else {
-                    System.out.println("Password salah");
-                    break;
-                }
-        
+    public boolean signUp(String username, String password,
+            String displayname, String email) {
         if (account == null)
-            System.out.println("Username salah");
+            connection.saveAccount(new Account(username, password, displayname, email));
+        else
+            return false;
+        return true;
     }
     
-    public void showTimeLine() {
-        showTimeLine(0);
-    }
-    public void showTimeLine(int idx) {
-        Card card = null;
-        int i = idx;
-        for (; i < 10; i++) {
-            if (i == account.getJumlahCard()){
-                if (i==0)
-                    System.out.println("Anda belum mempunyai timeline,\n"
-                            + "coba follow beberapa teman untuk\n"
-                            + "mendapatkan timeline");
-                else
-                    System.out.println("-------sudah semua-------");
-                return;
-            }
-            card = account.getTimeLine(i);
-            System.out.println((i+1)+". "+card.toString());
-        }
-        System.out.println("Lagi ? (ya/tidak)");
-        if (sc.nextLine().toLowerCase().equals("ya"))
-            showTimeLine(i);
+    public List<Card> getTimeLine() {
+        List<Card> list;
+        if (account != null)
+            list = connection.loadTimeLine(account);
+        else
+            list = new ArrayList<>();
+        
+        return list;
     }
     
-    public void findFriend() {
-        List<Account> foundedAccounts = new ArrayList<>();
-        
-        System.out.println("Masukkan nama : ");
-        String key = sc.nextLine();
-        
-        int count = 0;
-        int i = 0;
-        boolean sudahSemua = admin.getJumlahAccount() == i;
-        while ((count < 10) && (!sudahSemua)) {
-            Account foundedAccount = admin.accounts.get(i);
-            String displayname = foundedAccount.getDisplayname();
-            if (displayname.contains(key)) {
-                System.out.println(++count + ". " + displayname);
-                foundedAccounts.add(foundedAccount);
-            }
-            
-            sudahSemua = admin.getJumlahAccount() == ++i;
+    public List<Account> findFriend(String key) {
+        List<Account> list = new ArrayList<>();
+        List<Account> retrieved = connection.loadAccount();
+        for (Account e : retrieved) {
+            if (e.getDisplayname().contains(key))
+                list.add(e);
         }
-        if (count==0)
-            System.out.println("Tidak ada akun ditemukan");
-        else {
-            System.out.println("\nDo you wish to follow your friend? (Ya/No)\n");
-            if (sc.nextLine().toLowerCase().equals("ya")) {
-                System.out.println("Masukkan nomornya : ");
-                int idx = Integer.parseInt(sc.nextLine())-1;
-                if (idx < foundedAccounts.size()) {
-                    this.account.followFriend((foundedAccounts.get(idx)));
-                    System.out.println(foundedAccounts.get(idx).getDisplayname() + " has been followed");
-                } else {
-                    System.out.println("Input Salah");
+        
+        return list;
+    }
+    
+    public boolean addMedia(String path, List<Account> tag) {
+        if (account != null) {
+            try {
+                FileInputStream fis = new FileInputStream(path);
+                Media media = new Media(ImageIO.read(fis));
+                account.createMedia(media);
+                connection.saveMedia(media, account);
+                for (Account e : tag) {
+                    connection.saveTag(media, e);
                 }
-            }   
-        }
-    }
-    
-    public void addMedia() {
-        System.out.println("Masukkan alamat media : (*.jpg / *.png / *.mp4 / *.avi)");
-        String path = sc.nextLine();
-        if (account.createMedia(path)){
-            System.out.println("Media berhasil ditambahkan");
-        }
-    }
-    public void showMedia(Account account) {
-        showMedia(account, 0);
-    }
-    public void showMedia(Account account, int idx) {
-        Media media = null;
-        int i = idx;
-        for (; i < 10; i++) {
-            if (i == account.getJumlahMedia()){
-                if (i==0)
-                    System.out.println("Anda belum mempunyai timeline,\n"
-                            + "coba follow beberapa teman untuk\n"
-                            + "mendapatkan timeline");
-                else
-                    System.out.println("-------sudah semua-------");
-                return;
+                Card card = new Card(account, media);
+                connection.saveCard(card);
+                List<Account> follower = connection.loadFollower(account);
+                for (Account flw : follower) {
+                    connection.saveCardTl(card, flw);
+                    flw.addTimeLine(card);
+                }
+                return true;
+
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Aplikasi.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Aplikasi.class.getName()).log(Level.SEVERE, null, ex);
             }
-            media = account.getMedia(i);
-            System.out.println((i+1)+". "+media.toString());
         }
-        System.out.println("Lagi ? (ya/tidak)");
-        if (sc.nextLine().toLowerCase().equals("ya"))
-            showMedia(account, i);
+        return false;
     }
     
-    
-    
-    public void lookMedia(Media media) {
-        System.out.println("----------------");
-        System.out.println(media.toString());
-        System.out.println("----------------");  
-        System.out.println("Mau komen? (ya/tidak)");
-        if (sc.nextLine().toLowerCase().equals("YA"))
-            makeComment(media);
+    public List<Media> showMedia(Account account) {
+        List<Media> list = connection.loadMedia(account);
+        
+        return list;
     }
     
-    public void makeComment(Media media) {
-        System.out.println("Comment : ");
-        media.comments.add(new Comment(account, sc.nextLine()));
+    public Media lookMedia(List<Media> medias, int id) {
+        Media media = medias.get(id);
+        
+        List<Account> tag = connection.loadTag(media);
+        
+        return media;
     }
     
-    public void signOut() throws IOException {
-        account = null;
-        fio.saveFile(admin);
-        System.out.println("Berhasil sign out");
+    public boolean createComment(Media media, String text, Account account) {
+        Comment comment = new Comment(account, text);
+        connection.saveComment(comment, media);
+        media.createComment(account, comment);
+        
+        return true;
+    }
+    
+    public boolean signOut() {
+        if (account != null)
+            account = null;
+        else
+            return false;
+        return true;
     }
 }

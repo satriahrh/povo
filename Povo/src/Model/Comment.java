@@ -5,32 +5,33 @@
  */
 package Model;
 
-import java.io.Serializable;
-
 /**
  *
  * @author hafizhme
  */
-public class Comment implements Serializable {
+public class Comment {
+    private int id;
     private Account account;
     private String text;
     
-    public Comment(Account acount, String text) {
+    public Comment(Account account, String text) {
         this.account = account;
         this.text = text;
     }
     
-    public String getDisplayName() {
-        return this.account.getDisplayname();
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public int getId() {
+        return this.id;
+    }
+    
+    public Account getAccount() {
+        return this.account;
     }
     
     public String getText() {
         return this.text;
-    }
-    
-    public String toString(){
-        return  "comment : " +
-                this.getDisplayName() + "\t| " +
-                this.getText() + "\t| ";
     }
 }

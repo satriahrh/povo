@@ -5,7 +5,6 @@
  */
 package Model;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,20 +12,23 @@ import java.util.List;
  *
  * @author hafizhme
  */
-public class Media {
+public abstract class Media {
     private int id;
-    private final BufferedImage content;
+    final String path;
     private List<Account> tags = new ArrayList<Account>();
-    public List<Comment> comments = new ArrayList<Comment>();
+    private int jumlahTag = tags.size();
     
-    public Media(BufferedImage content) {
-        this.content = content;
+    public Media(String path) {
+        this.path = path;
+        this.fileToContent();
     }
     
-    public Media(int id, BufferedImage content) {
+    public Media(int id, String path) {
         this.id = id;
-        this.content = content;
+        this.path = path;
+        this.fileToContent();
     }
+    
     
     public void setId(int id) {
         this.id = id;
@@ -36,28 +38,30 @@ public class Media {
         return this.id;
     }
     
-    public BufferedImage getContent() {
-        return this.content;
+    public String getPath(){
+        return this.path;
+    }
+       
+    public Account getTag(int id) {
+        return this.tags.get(id);
     }
     
     public void tagPerson(Account account) {
         this.tags.add(account);
     }
     
-    public Account getTag(int id) {
-        return this.tags.get(id);
+    public int numberOfTags() {
+        return this.jumlahTag;
     }
     
-    public void createComment(Account account, Comment comment) {
-        this.comments.add(comment);
+    public void removeTag(int id) {
+        this.tags.remove(id);
     }
-    
-    public Comment getComment(int id){
-        return this.comments.get(id);
-    }
-    
+       
     public String toString() {
-        return this.content.toString();
+        return this.path;
     }
     
+    public abstract void fileToContent();
+
 }

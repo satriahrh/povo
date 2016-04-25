@@ -17,7 +17,7 @@ public class Driver {
     
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         Aplikasi app = new Aplikasi();
-        app.mainMenu();        
+//        app.mainMenu();        
     }
     
 }

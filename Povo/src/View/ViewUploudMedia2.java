@@ -4,6 +4,7 @@
  */
 package View;
 
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 /**
@@ -122,7 +123,10 @@ public class ViewUploudMedia2 extends javax.swing.JFrame {
     public void setBtnTag(JButton btnTag) {
         this.btnTag = btnTag;
     }
-
+public void addListener(ActionListener e){
+    btnTag.addActionListener(e);
+    
+}
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTag;

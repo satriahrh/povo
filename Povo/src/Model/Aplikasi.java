@@ -5,248 +5,259 @@
  */
 package Model;
 
-import FileIO.FileIO;
-import Model.Account;
-import Model.Admin;
-import Model.Card;
-import Model.Media;
+import Database.Database;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 
 /**
  *
  * @author hafizhme
  */
 public class Aplikasi {
-    
-    Admin admin;
-    Account account = null;
-    FileIO fio = null;
-    static Scanner sc = new Scanner(System.in);
-    
-    public Aplikasi () throws ClassNotFoundException, IOException {
-        fio = new FileIO();
-        admin = fio.loadFile();
-        if (admin==null){
-            admin = new Admin();
-            fio.saveFile(admin);
-        }
+
+    private List<Account> listAccount;
+    private int idAccountActive = -1;
+    private Account accountActive = null;
+    Database connection;
+
+    public Aplikasi() {
+        System.out.println("Memulai aplikasi");
+        connection.connect();
+        listAccount = connection.retrieveAllAccount();
+        connection.retrieveAllMedia(listAccount);
+        connection.retrieveAllFriend(listAccount);
     }
-    public void mainMenu() throws IOException, ClassNotFoundException {
-        System.out.println("1. Account");
-        System.out.println("2. Admin");
-        if (sc.nextLine().equals("1"))
-            for (;;){
-                if (account != null) {
-                    System.out.println("Main Menu");
-                    System.out.println("1. Timeline");
-                    System.out.println("2. Find Friend");
-                    System.out.println("3. Add Media");
-                    System.out.println("4. My Media");
-                    System.out.println("5. Sign Out");             
-                    switch (sc.nextLine()) {
-                        case "1" :
-                            showTimeLine();
-                            break;
-                        case "2" :
-                            findFriend();
-                            break;
-                        case "3" :
-                            addMedia();
-                            break;
-                        case "4" :
-                            showMedia(account);
-                            break;
-                        case "5" :
-                            signOut();
-                            break;
-                        default :
-                            System.out.println("Input salah");
-                            break;
-                    }
-                } else {
-                    System.out.println("Main Menu");
-                    System.out.println("1. Sign In");
-                    System.out.println("2. Sign Up");
-                    System.out.println("3. Exit");
-                    switch (sc.nextLine()) {
-                        case "1" :
-                            signIn();
-                            break;
-                        case "2" :
-                            signUp();
-                            break;
-                        case "3" :
-                            return;
-                        default :
-                            System.out.println("Input salah");
-                            break;
-                    }
-                }
-            }
-        else
-            System.out.println("Belum tersedia saat ini");
-    }        
-    public void signUp() throws IOException, ClassNotFoundException {
-        Account account = null;
-        admin = fio.loadFile();
-        
-        System.out.println("username\t: ");
-        String username = sc.nextLine();
-        System.out.println("displayname\t: ");
-        String displayname = sc.nextLine();
-        System.out.println("email\t\t: ");
-        String email = sc.nextLine();
-        System.out.println("password\t: ");
-        String password = sc.nextLine();
-            
-        account = new Account();
-        account.setUsername(username);
-        account.setDisplayname(displayname);
-        account.setEmail(email);
-        account.setPassword(password);
-     
-        if (admin.createAccount(account)) {
-            fio.saveFile(admin);
-            System.out.println("Akun telah dibuat, silakan log in");
+
+    public void addAccount(String username, String password,
+            String displayname) {
+        System.out.println("add account");
+        if (accountActive == null) {
+            listAccount.add(new Account(username, password, displayname));
+            connection.saveAccount(listAccount.get(listAccount.size() - 1));
+            System.out.println("User berhasil tersimpan in berhasil");
         } else {
-            System.out.println("Terdapat akun dengan username sama");
+            System.out.println("User sudah login");
         }
     }
-    
-    public void signIn() throws IOException, ClassNotFoundException {        
-        System.out.println("Username : ");
-        String username = sc.nextLine();
-        System.out.println("Password : ");
-        String password = sc.nextLine();
-        
-        admin = fio.loadFile();
-        for (int i = 0; i < admin.accounts.size(); i++)
-            if (admin.accounts.get(i).getUsername().equals(username))
-                if (admin.accounts.get(i).getPassword().equals(password)) {
-                    account = admin.accounts.get(i);
-                    break;
-                } else {
-                    System.out.println("Password salah");
-                    break;
+
+    public Account getAccoount(int id) {
+        System.out.println("get account");
+        if (id >= listAccount.size()) {
+            System.out.println("Index lebih tinggi dari size");
+            return null;
+        }
+        Account account = listAccount.get(id);
+        System.out.println("GetAccount " + account);
+        return account;
+    }
+
+    public boolean signIn(String username, String password) {
+        System.out.println("sign in ");
+        for (Account e : listAccount) {
+            if (e.getUsername().equals(username)
+                    && e.getPassword().equals(password)) {
+                this.accountActive = e;
+                System.out.println("Akun " + this.accountActive + " berhasil sign in");
+                return true;
+            }
+        }
+        System.out.println("Username atau password salah");
+        return false;
+    }
+
+    public boolean signUp(String username, String password,
+            String displayname) {
+        System.out.println("sing Up");
+        if (accountActive == null) {
+            for (Account account : listAccount) {
+                if (account.getUsername().equals(username)) {
+                    System.out.println("akun sudah ada, duplicated username");
+                    return false;
                 }
-        
-        if (account == null)
-            System.out.println("Username salah");
+            }
+            Account account = new Account(username, password, displayname);
+            connection.saveAccount(account);
+            System.out.println("Account berhasil ditambahkan");
+            return true;
+        } else {
+            System.out.println("Ada akun aktif");
+            return false;
+        }
+
+    }
+
+    public boolean signOut() {
+        if (accountActive == null) {
+            System.out.println("tidak ada akun yang login");
+            return false;
+        }
+        System.out.println(accountActive + " sign Out");
+
+        accountActive = null;
+        System.out.println("Sign out berhasil, aktif akun : " + accountActive);
+        return true;
+    }
+
+    public void uploadMedia(String path) {
+        if (accountActive == null) {
+            System.out.println("tidak ada akun yang login");
+            return;
+        }
+        System.out.println("Upload Media " + path);
+        if ((path.contains(".jpg")) || (path.contains(".png"))) {
+            System.out.println("Upload photo");
+            Media media = new Photo(path);
+            connection.saveMedia(media, accountActive);
+            System.out.println(media + " berhasil uploadMedia");
+        } else if ((path.contains(".mp4")) || path.contains(".avi")) {
+            System.out.println("Upload Video saat ini tidak tersedia");
+        } else {
+            System.out.println("file tidak didukung");
+        }
+    }
+
+    public List<Media> peekUser(int id) {
+        if (accountActive == null) {
+            System.out.println("tidak ada akun yang login");
+            return null;
+        }
+        System.out.println("peek user id-" + id);
+        List<Media> list = new ArrayList<>();
+        if (id >= listAccount.size()) {
+            System.out.println("Index lebih tinggi dari size");
+            return list;
+        }
+        for (int i = 0; i < listAccount.get(id).numberOfMedias(); i++) {
+            Media media = listAccount.get(id).getMedia(id);
+            System.out.println("Mendapatkan media" + media);
+            list.add(media);
+        }
+        return list;
+    }
+
+    public void tagPerson(int idMedia, int idAccount) {
+        if (accountActive == null) {
+            System.out.println("tidak ada akun yang login");
+            return;
+        }
+        if (idAccount >= listAccount.size()) {
+            System.out.println("Index lebih tinggi dari size");
+            return;
+        }
+        if (idMedia >= listAccount.get(idAccount).numberOfMedias()) {
+            System.out.println("Index lebih tinggi dari size");
+            return;
+        }
+
+        Account account = listAccount.get(idAccount);
+        Media media = listAccount.get(idAccount).getMedia(idMedia);
+        System.out.println("Tag person " + account + " to " + media);
+
+        media.tagPerson(account);
+        System.out.println(account + " tagged in " + media);
+        connection.saveMedia(media, account);
+    }
+
+    public void followFriend(int id) {
+        if (accountActive == null) {
+            System.out.println("tidak ada akun yang login");
+            return;
+        }
+        System.out.println("followFriend");
+        Account following = listAccount.get(id);
+        System.out.println(accountActive + " going to follow " + following);
+        accountActive.followFriend(following);
+        System.out.println(accountActive + " is following to " + following);
+        connection.saveFollow(accountActive, following);
     }
     
-    public void showTimeLine() {
-        showTimeLine(0);
-    }
-    public void showTimeLine(int idx) {
-        Card card = null;
-        int i = idx;
-        for (; i < 10; i++) {
-            if (i == account.getJumlahCard()){
-                if (i==0)
-                    System.out.println("Anda belum mempunyai timeline,\n"
-                            + "coba follow beberapa teman untuk\n"
-                            + "mendapatkan timeline");
-                else
-                    System.out.println("-------sudah semua-------");
-                return;
-            }
-            card = account.getTimeLine(i);
-            System.out.println((i+1)+". "+card.toString());
+    public void deleteTag(int idAccount, int idMedia, int idTag) {
+        System.out.println("Delete media ke-" + idAccount + "." +idMedia + "." + idTag);
+        if (idAccount >= listAccount.size()) {
+            System.out.println("Index Account lebih tinggi dari size");
+            return;
         }
-        System.out.println("Lagi ? (ya/tidak)");
-        if (sc.nextLine().toLowerCase().equals("ya"))
-            showTimeLine(i);
+        if (idMedia >= listAccount.get(idAccount).numberOfMedias()) {
+            System.out.println("Index Media lebih tinggi dari size");
+            return;
+        }
+        if (idTag >= listAccount.get(idAccount).getMedia(idMedia).numberOfTags()) {
+            System.out.println("Index Tag lebih tinggi dari size");
+            return;
+        }
+        Account account = listAccount.get(idAccount);
+        Media media = account.getMedia(idMedia);
+        media.removeTag(idTag);
+        System.out.println(account + " berhasil untag dari " + media);
+        connection.removeTag(account, media);
+        
+        
+    }
+    public void deleteMedia(int idAccount, int idMedia) {
+        System.out.println("Delete media ke-" + idAccount + "." +idMedia);
+        if (idAccount >= listAccount.size()) {
+            System.out.println("Index lebih tinggi dari size");
+            return;
+        }
+        if (idMedia >= listAccount.get(idAccount).numberOfMedias()) {
+            System.out.println("Index lebih tinggi dari size");
+            return;
+        }
+        Account account = listAccount.get(idAccount);
+        Media media = account.getMedia(idMedia);
+        for (int i = 0; i < media.numberOfTags(); i++) {
+            deleteTag(idAccount, idMedia, i);
+        }
+        account.removeMedia(idMedia);
+        System.out.println(media + " berhasil untag dari " + account);
+        connection.removeMedia(media);
     }
     
-    public void findFriend() {
-        List<Account> foundedAccounts = new ArrayList<>();
-        
-        System.out.println("Masukkan nama : ");
-        String key = sc.nextLine();
-        
-        int count = 0;
-        int i = 0;
-        boolean sudahSemua = admin.getJumlahAccount() == i;
-        while ((count < 10) && (!sudahSemua)) {
-            Account foundedAccount = admin.accounts.get(i);
-            String displayname = foundedAccount.getDisplayname();
-            if (displayname.contains(key)) {
-                System.out.println(++count + ". " + displayname);
-                foundedAccounts.add(foundedAccount);
-            }
-            
-            sudahSemua = admin.getJumlahAccount() == ++i;
+    public void deleteFriend(int idFollower, int idFollowing) {
+        System.out.println("Delete friend ke-" + idFollower + "." +idFollowing);
+        if (idFollower >= listAccount.size()) {
+            System.out.println("Index lebih tinggi dari size");
+            return;
         }
-        if (count==0)
-            System.out.println("Tidak ada akun ditemukan");
-        else {
-            System.out.println("\nDo you wish to follow your friend? (Ya/No)\n");
-            if (sc.nextLine().toLowerCase().equals("ya")) {
-                System.out.println("Masukkan nomornya : ");
-                int idx = Integer.parseInt(sc.nextLine())-1;
-                if (idx < foundedAccounts.size()) {
-                    this.account.followFriend((foundedAccounts.get(idx)));
-                    System.out.println(foundedAccounts.get(idx).getDisplayname() + " has been followed");
-                } else {
-                    System.out.println("Input Salah");
+        if (idFollowing >= listAccount.size()) {
+            System.out.println("Index lebih tinggi dari size");
+            return;
+        }
+        Account account = listAccount.get(idFollower);
+        Account following = listAccount.get(idFollowing);
+        account.removeFriends(idFollower);
+        System.out.println(following + " dihapus dari following " + account);
+        connection.removeFriend(account, following);
+    }
+    
+    public void deleteAccount(int idAccount) {
+        System.out.println("Delete account ke-" + idAccount);
+        if (idAccount >= listAccount.size()) {
+            System.out.println("Index lebih tinggi dari size");
+            return;
+        }
+        for (int i = 0; i < listAccount.size(); i++) {
+            Account account = listAccount.get(i);
+            for (int j = 0; j < account.numberOfMedias(); j++) {
+                Media media = account.getMedia(j);
+                for (int k = 0; k < media.numberOfTags(); k++) {
+                    deleteTag(i,j,k);
                 }
-            }   
-        }
-    }
-    
-    public void addMedia() {
-        System.out.println("Masukkan alamat media : (*.jpg / *.png / *.mp4 / *.avi)");
-        String path = sc.nextLine();
-        if (account.createMedia(path)){
-            System.out.println("Media berhasil ditambahkan");
-        }
-    }
-    public void showMedia(Account account) {
-        showMedia(account, 0);
-    }
-    public void showMedia(Account account, int idx) {
-        Media media = null;
-        int i = idx;
-        for (; i < 10; i++) {
-            if (i == account.getJumlahMedia()){
-                if (i==0)
-                    System.out.println("Anda belum mempunyai timeline,\n"
-                            + "coba follow beberapa teman untuk\n"
-                            + "mendapatkan timeline");
-                else
-                    System.out.println("-------sudah semua-------");
-                return;
+                deleteMedia(i,j);
             }
-            media = account.getMedia(i);
-            System.out.println((i+1)+". "+media.toString());
+            for (int j = 0; j < account.numberOfFriends(); j++) {
+                deleteFriend(i,j);
+            }
         }
-        System.out.println("Lagi ? (ya/tidak)");
-        if (sc.nextLine().toLowerCase().equals("ya"))
-            showMedia(account, i);
+        System.out.println("Akun " + listAccount.remove(idAccount) + " berhasil dihapus");
     }
     
     
-    
-    public void lookMedia(Media media) {
-        System.out.println("----------------");
-        System.out.println(media.toString());
-        System.out.println("----------------");  
-        System.out.println("Mau komen? (ya/tidak)");
-        if (sc.nextLine().toLowerCase().equals("YA"))
-            makeComment(media);
-    }
-    
-    public void makeComment(Media media) {
-        System.out.println("Comment : ");
-        media.comments.add(new Comment(account, sc.nextLine()));
-    }
-    
-    public void signOut() throws IOException {
-        account = null;
-        fio.saveFile(admin);
-        System.out.println("Berhasil sign out");
-    }
 }
+ 

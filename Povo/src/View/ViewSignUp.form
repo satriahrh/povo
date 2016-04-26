@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.3" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
   </Properties>
@@ -23,20 +23,37 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="128" max="32767" attributes="0"/>
-              <Component id="jLabel2" min="-2" pref="70" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="btnSignIn" alignment="0" max="32767" attributes="0"/>
                   <Component id="txtPassword" alignment="0" max="32767" attributes="0"/>
                   <Component id="txtDisplayname" alignment="0" pref="156" max="32767" attributes="0"/>
                   <Component id="txtUsername" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="73" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="jLabel2" min="-2" pref="70" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="btnSign" min="-2" pref="174" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="btnBack" min="-2" pref="66" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="124" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
           </Group>
       </Group>
     </DimensionLayout>
@@ -46,30 +63,40 @@
               <EmptySpace pref="133" max="32767" attributes="0"/>
               <Component id="jLabel2" min="-2" pref="70" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
-              <Component id="txtUsername" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="txtUsername" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="txtPassword" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="txtPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="txtDisplayname" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="btnSignIn" min="-2" pref="33" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="txtDisplayname" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnSign" min="-2" pref="31" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnBack" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="btnSignIn">
+    <Component class="javax.swing.JButton" name="btnSign">
       <Properties>
         <Property name="text" type="java.lang.String" value="Sign Up"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSignInActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSignActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtDisplayname">
       <Properties>
-        <Property name="text" type="java.lang.String" value="displayname"/>
         <Property name="toolTipText" type="java.lang.String" value="displayname"/>
         <Property name="name" type="java.lang.String" value="" noResource="true"/>
       </Properties>
@@ -90,21 +117,43 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtUsername">
       <Properties>
-        <Property name="text" type="java.lang.String" value="username"/>
         <Property name="toolTipText" type="java.lang.String" value="username"/>
         <Property name="name" type="java.lang.String" value="username" noResource="true"/>
       </Properties>
       <AccessibilityProperties>
         <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" value=""/>
       </AccessibilityProperties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtUsernameActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JPasswordField" name="txtPassword">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jPasswordField1"/>
-      </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtPasswordActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnBack">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Back"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBackActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Username"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Password"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel4">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Display Name"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

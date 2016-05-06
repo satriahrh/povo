@@ -5,8 +5,13 @@
 package View;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.io.File;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -36,8 +41,12 @@ public class UploudMedia1 extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jTextFieldIsiFile = new javax.swing.JTextField();
         btnUploud = new javax.swing.JButton();
-        btnSignOut = new javax.swing.JButton();
-        btnFile = new javax.swing.JButton();
+        back = new javax.swing.JButton();
+        file = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        delete = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         menu1.setLabel("File");
         menuBar1.add(menu1);
@@ -55,57 +64,91 @@ public class UploudMedia1 extends javax.swing.JFrame {
             }
         });
 
-        btnUploud.setText("UPLOUD");
+        btnUploud.setText("UPLOAD");
         btnUploud.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUploudActionPerformed(evt);
             }
         });
 
-        btnSignOut.setText("Sign Out");
-        btnSignOut.addActionListener(new java.awt.event.ActionListener() {
+        back.setText("back");
+        back.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSignOutActionPerformed(evt);
+                backActionPerformed(evt);
             }
         });
 
-        btnFile.setText("File");
-        btnFile.addActionListener(new java.awt.event.ActionListener() {
+        file.setText("File");
+        file.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFileActionPerformed(evt);
+                fileActionPerformed(evt);
             }
         });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        delete.setText("Tag");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setText("My Media");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextFieldIsiFile, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(back)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(btnUploud, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(file, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnSignOut))
+                .addComponent(delete)
+                .addGap(131, 131, 131))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jTextFieldIsiFile, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnFile)
-                .addContainerGap(24, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnUploud, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(97, 97, 97))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnSignOut)
-                .addGap(37, 37, 37)
+                .addComponent(back)
+                .addGap(56, 56, 56)
+                .addComponent(jTextFieldIsiFile, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldIsiFile, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnFile, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnUploud)
-                .addContainerGap(302, Short.MAX_VALUE))
+                    .addComponent(btnUploud)
+                    .addComponent(file))
+                .addGap(43, 43, 43)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(delete)
+                .addContainerGap(188, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -128,26 +171,22 @@ public class UploudMedia1 extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public JButton getBtnFile() {
-        return btnFile;
-    }
-
-    public void setBtnFile(JButton btnFile) {
-        this.btnFile = btnFile;
-    }
-
-    public JButton getBtnSignOut() {
-        return btnSignOut;
+     public JButton getBtnSignOut() {
+        return back;
     }
 
     public void setBtnSignOut(JButton btnSignOut) {
-        this.btnSignOut = btnSignOut;
+        this.back = btnSignOut;
     }
 
     public JButton getBtnUploud() {
         return btnUploud;
     }
-
+    
+    public JButton getBtnTag() {
+        return delete;
+    }
+    
     public void setBtnUploud(JButton btnUploud) {
         this.btnUploud = btnUploud;
     }
@@ -159,14 +198,33 @@ public class UploudMedia1 extends javax.swing.JFrame {
     public void setjTextFieldIsiFile(JTextField jTextFieldIsiFile) {
         this.jTextFieldIsiFile = jTextFieldIsiFile;
     }
+    
+    public void setjTable(DefaultTableModel model){
+        this.jTable1.setModel(model);
+    }
+    
+    public int getSelectedID(){
+        return jTable1.getSelectedRow();
+    }
+    
+    public JTable getTableidmedia(){
+        return jTable1;
+    }
+    
+    public void mouseadapter(MouseAdapter e){
+        jTable1.addMouseListener(e);
+    }
+    
+    public int getselectedid(){
+        return jTable1.getSelectedRow();
+    }
 
-    private void btnSignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignOutActionPerformed
+    
+ 
+    
+    private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnSignOutActionPerformed
-
-    private void btnFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFileActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnFileActionPerformed
+    }//GEN-LAST:event_backActionPerformed
 
     private void btnUploudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUploudActionPerformed
         // TODO add your handling code here:
@@ -176,17 +234,34 @@ public class UploudMedia1 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldIsiFileActionPerformed
 
+    private void fileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileActionPerformed
+        jTextFieldIsiFile.setText("");
+        JFileChooser file = new JFileChooser();
+        file.showOpenDialog(null);
+        File f = file.getSelectedFile();
+        String filename = f.getAbsolutePath();
+        jTextFieldIsiFile.setText(filename);      
+    }//GEN-LAST:event_fileActionPerformed
+
     public void addListener(ActionListener e){
-       btnSignOut.addActionListener(e);
+       back.addActionListener(e);
        btnUploud.addActionListener(e);
-       btnFile.addActionListener(e);
-       
+       file.addActionListener(e);
+       delete.addActionListener(e);
+              
     }
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnFile;
-    private javax.swing.JButton btnSignOut;
+    private javax.swing.JButton back;
     private javax.swing.JButton btnUploud;
+    private javax.swing.JButton delete;
+    private javax.swing.JButton file;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextFieldIsiFile;
     private java.awt.Menu menu1;
     private java.awt.Menu menu2;

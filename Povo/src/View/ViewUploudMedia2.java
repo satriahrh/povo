@@ -6,6 +6,8 @@ package View;
 
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JTextField;
 
 /**
  *
@@ -31,16 +33,16 @@ public class ViewUploudMedia2 extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        output = new javax.swing.JList();
         btnTag = new javax.swing.JButton();
-        jTextField2isinama = new javax.swing.JTextField();
+        Tag = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Uploud 2", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial", 1, 18))); // NOI18N
 
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(output);
 
         btnTag.setText("TAG");
         btnTag.addActionListener(new java.awt.event.ActionListener() {
@@ -49,9 +51,9 @@ public class ViewUploudMedia2 extends javax.swing.JFrame {
             }
         });
 
-        jTextField2isinama.addActionListener(new java.awt.event.ActionListener() {
+        Tag.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2isinamaActionPerformed(evt);
+                TagActionPerformed(evt);
             }
         });
 
@@ -65,7 +67,7 @@ public class ViewUploudMedia2 extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(13, 13, 13)
-                .addComponent(jTextField2isinama)
+                .addComponent(Tag)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnTag)
                 .addGap(21, 21, 21))
@@ -83,7 +85,7 @@ public class ViewUploudMedia2 extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2isinama, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Tag, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTag))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -112,10 +114,28 @@ public class ViewUploudMedia2 extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnTagActionPerformed
 
-    private void jTextField2isinamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2isinamaActionPerformed
+    private void TagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TagActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2isinamaActionPerformed
+    }//GEN-LAST:event_TagActionPerformed
 
+    public JTextField getTag() {
+        return Tag;
+    }
+
+    public void setTag(JTextField Tag) {
+        this.Tag = Tag;
+    }
+
+    public JList getOutput() {
+        return output;
+    }
+
+    public void setOutput(JList output) {
+        this.output = output;
+    }
+
+    
+    
     public JButton getBtnTag() {
         return btnTag;
     }
@@ -129,11 +149,11 @@ public void addListener(ActionListener e){
 }
  
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Tag;
     private javax.swing.JButton btnTag;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField2isinama;
+    private javax.swing.JList output;
     // End of variables declaration//GEN-END:variables
 }

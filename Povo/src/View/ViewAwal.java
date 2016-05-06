@@ -7,6 +7,7 @@ package View;
 
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -24,7 +25,7 @@ public class ViewAwal extends javax.swing.JFrame {
 
         jButton2 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         btnSignUp = new javax.swing.JButton();
         btnSignIn = new javax.swing.JButton();
         txtUsername = new javax.swing.JTextField();
@@ -40,12 +41,12 @@ public class ViewAwal extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnSignUp.setFont(new java.awt.Font("Ebrima", 0, 11)); // NOI18N
-        btnSignUp.setText("Sign In");
+        btnSignUp.setText("Sign Up");
         btnSignUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSignUpActionPerformed(evt);
@@ -53,7 +54,7 @@ public class ViewAwal extends javax.swing.JFrame {
         });
 
         btnSignIn.setFont(new java.awt.Font("Ebrima", 0, 11)); // NOI18N
-        btnSignIn.setText("Sign Up");
+        btnSignIn.setText("Sign in");
         btnSignIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSignInActionPerformed(evt);
@@ -61,7 +62,6 @@ public class ViewAwal extends javax.swing.JFrame {
         });
 
         txtUsername.setFont(new java.awt.Font("Ebrima", 0, 11)); // NOI18N
-        txtUsername.setText("username");
         txtUsername.setToolTipText("username");
         txtUsername.setName("username"); // NOI18N
         txtUsername.addActionListener(new java.awt.event.ActionListener() {
@@ -70,7 +70,6 @@ public class ViewAwal extends javax.swing.JFrame {
             }
         });
 
-        txtPassword.setText("jPasswordField1");
         txtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPasswordActionPerformed(evt);
@@ -179,7 +178,9 @@ public class ViewAwal extends javax.swing.JFrame {
         btnSignUp.addActionListener(e);
     }
     
-    
+    public void showmessage(String message){
+        JOptionPane.showMessageDialog(null, message);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSignIn;
     private javax.swing.JButton btnSignUp;

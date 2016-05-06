@@ -16,6 +16,7 @@ public class Account {
     private String username;
     private String password;
     private String displayname;
+    private String email;
     private List<Media> medias = new ArrayList<Media>();
     private List<Account> friends = new ArrayList<>();
     private int jumlahMedias = medias.size();
@@ -23,11 +24,21 @@ public class Account {
     
     public Account(String username,
             String password,
-            String displayname
+            String displayname,
+            String email
             ) {
         this.username = username;
         this.password = password;
         this.displayname = displayname;
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     

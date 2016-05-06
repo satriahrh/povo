@@ -18,9 +18,9 @@ public class Account {
     private String displayname;
     private String email;
     private List<Media> medias = new ArrayList<Media>();
-    private List<Account> following = new ArrayList<>();
-    private List<Account> follower = new ArrayList<>();
-    private List<Card> timeline = new ArrayList<>();
+    private List<Account> friends = new ArrayList<>();
+    private int jumlahMedias = medias.size();
+    private int jumlahFriends = medias.size();
     
     public Account(String username,
             String password,
@@ -31,6 +31,52 @@ public class Account {
         this.password = password;
         this.displayname = displayname;
         this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    
+    public int numberOfMedias() {
+        return this.jumlahMedias;
+    }
+
+    public int numberOfFriends() {
+        return this.jumlahFriends;
+    }
+        
+    public void createMedia(Media media) {
+        this.medias.add(media);
+    }
+    
+    public Media getMedia(int id) {
+        return this.medias.get(id);      
+    }
+    
+    public void followFriend(Account account) {
+        this.friends.add(account);
+    }
+    
+    public void removeFriends(int id) {
+        friends.remove(id);
+    }
+    
+    public void removeMedia(int id) {
+        for (int i = 0; i < medias.get(id).numberOfTags(); i++) {
+            medias.get(id).removeTag(i);
+        }
+        medias.remove(id);
+    }
+       
+    public String toString() {
+        return this.getUsername() + " | " +
+                this.getDisplayname() + " | " +
+                this.getDisplayname();
     }
 
     public String getUsername() {
@@ -45,36 +91,8 @@ public class Account {
         return displayname;
     }
 
-    public String getEmail() {
-        return email;
-    }
-        
-    public void createMedia(Media media) {
-        this.medias.add(media);
-    }
-    
-    public Media getMedia(int id) {
-        return this.medias.get(id);      
-    }
-    
-    public void followFriend(Account account) {
-        this.following.add(account);
-        account.followedByFriend(this);        
-    }
-    
-    public void followedByFriend(Account account) {
-        this.follower.add(account);
-    }
-    
-    public void addTimeLine(Card card) {
-        this.timeline.add(card);
-    }
-    
-    public String toString() {
-        return this.username + " | " +
-                this.displayname + " | " +
-                this.displayname + " | " +
-                this.email;
+    public void setDisplayname(String displayname) {
+        this.displayname = displayname;
     }
     
 }

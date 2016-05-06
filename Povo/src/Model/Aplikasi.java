@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -28,6 +29,7 @@ public class Aplikasi {
 
     public Aplikasi() {
         System.out.println("Memulai aplikasi");
+        connection = new Database();
         connection.connect();
         listAccount = connection.retrieveAllAccount();
         connection.retrieveAllMedia(listAccount);
@@ -35,10 +37,10 @@ public class Aplikasi {
     }
 
     public void addAccount(String username, String password,
-            String displayname) {
+            String displayname, String email) {
         System.out.println("add account");
         if (accountActive == null) {
-            listAccount.add(new Account(username, password, displayname));
+            listAccount.add(new Account(username, password, displayname, email));
             connection.saveAccount(listAccount.get(listAccount.size() - 1));
             System.out.println("User berhasil tersimpan in berhasil");
         } else {
@@ -48,31 +50,33 @@ public class Aplikasi {
 
     public Account getAccoount(int id) {
         System.out.println("get account");
+        System.out.println(listAccount.size());
         if (id >= listAccount.size()) {
             System.out.println("Index lebih tinggi dari size");
             return null;
         }
         Account account = listAccount.get(id);
+        
         System.out.println("GetAccount " + account);
         return account;
     }
 
-    public boolean signIn(String username, String password) {
+    public Account signIn(String username, String password) {
         System.out.println("sign in ");
         for (Account e : listAccount) {
             if (e.getUsername().equals(username)
                     && e.getPassword().equals(password)) {
                 this.accountActive = e;
                 System.out.println("Akun " + this.accountActive + " berhasil sign in");
-                return true;
+                return e;
             }
         }
         System.out.println("Username atau password salah");
-        return false;
+        return null;
     }
 
     public boolean signUp(String username, String password,
-            String displayname) {
+            String displayname, String email) {
         System.out.println("sing Up");
         if (accountActive == null) {
             for (Account account : listAccount) {
@@ -81,7 +85,7 @@ public class Aplikasi {
                     return false;
                 }
             }
-            Account account = new Account(username, password, displayname);
+            Account account = new Account(username, password, displayname, email);
             connection.saveAccount(account);
             System.out.println("Account berhasil ditambahkan");
             return true;
@@ -141,17 +145,29 @@ public class Aplikasi {
         return list;
     }
 
+    public int getAccount(String user){
+        for (Account a : listAccount){
+            if (a.getUsername().equals(user))
+                return listAccount.indexOf(a);
+        }
+        return -1;
+    }
+    
     public void tagPerson(int idMedia, int idAccount) {
         if (accountActive == null) {
             System.out.println("tidak ada akun yang login");
             return;
         }
         if (idAccount >= listAccount.size()) {
-            System.out.println("Index lebih tinggi dari size");
+            System.out.println("Index lebih tinggi dari size1");
             return;
         }
-        if (idMedia >= listAccount.get(idAccount).numberOfMedias()) {
-            System.out.println("Index lebih tinggi dari size");
+//        if (idMedia >= listAccount.get(idAccount).numberOfMedias()) {
+//            System.out.println("Index lebih tinggi dari size2");
+//            return;
+//        }
+        if (idAccount < 0){
+            System.out.println("Tidak ada");
             return;
         }
 
@@ -164,13 +180,13 @@ public class Aplikasi {
         connection.saveMedia(media, account);
     }
 
-    public void followFriend(int id) {
+    public void followFriend(Account following) {
         if (accountActive == null) {
             System.out.println("tidak ada akun yang login");
             return;
         }
         System.out.println("followFriend");
-        Account following = listAccount.get(id);
+        //Account following = listAccount.get(id);
         System.out.println(accountActive + " going to follow " + following);
         accountActive.followFriend(following);
         System.out.println(accountActive + " is following to " + following);
@@ -258,6 +274,13 @@ public class Aplikasi {
         System.out.println("Akun " + listAccount.remove(idAccount) + " berhasil dihapus");
     }
     
-    
+    public DefaultTableModel getUsername(){
+        
+        return connection.getData();
+    }
+      public DefaultTableModel getMedia(){
+        return connection.getimage();
+    }
+
 }
  
